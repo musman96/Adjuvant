@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Forms;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UITesting;
+using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
@@ -26,8 +27,35 @@ namespace Adjuvant.UI.Test
         public void CodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
+            this.TestLogin();
         }
 
+        [TestMethod]
+        public void TestLogin()
+        {
+            //wdf
+            BrowserWindow.CurrentBrowser = "chrome" ;
+            using (var win = BrowserWindow.Launch("https://fgxadjuvantdev.azurewebsites.net/Account/Account/Login"))
+            {
+                // variables
+                HtmlEdit username = new HtmlEdit(win);
+                HtmlEdit pass = new HtmlEdit(win);
+                HtmlButton btnLOgin = new HtmlButton(win);
+
+                username.SearchProperties.Add(HtmlEdit.PropertyNames.Id,"username");
+                pass.SearchProperties.Add(HtmlEdit.PropertyNames.Id, "password");
+                btnLOgin.SearchProperties.Add(HtmlButton.PropertyNames.Id, "btn_login");
+
+                // enter the data
+                
+                Keyboard.SendKeys(username,"admin@fgxplatform.com");
+                Keyboard.SendKeys(pass,"Fgx1234!");
+                Mouse.Click(btnLOgin);
+
+            }
+            
+
+        }
         #region Additional test attributes
 
         // You can use the following additional attributes as you write your tests:
